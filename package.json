@@ -1,0 +1,61 @@
+{
+  "name": "egg-typegoose",
+  "version": "0.0.1",
+  "description": "Typegoose for egg",
+  "eggPlugin": {
+    "name": "typegoose"
+  },
+  "keywords": [
+    "egg",
+    "eggPlugin",
+    "egg-plugin"
+  ],
+  "dependencies": {
+    "chokidar": "^2.1.2",
+    "fs-extra": "^7.0.1",
+    "fs-jetpack": "^2.2.2",
+    "mongoose": "^5.6.3",
+    "prettier": "^1.16.4",
+    "typegoose": "^5.7.2"
+  },
+  "devDependencies": {
+    "@types/chokidar": "^1.7.5",
+    "@types/fs-extra": "^5.0.5",
+    "@types/mongoose": "^5.5.7",
+    "@types/prettier": "^1.16.1",
+    "autod": "^3.0.1",
+    "autod-egg": "^1.1.0",
+    "egg": "^2.16.0",
+    "egg-bin": "^4.11.0",
+    "egg-ci": "^1.11.0",
+    "egg-mock": "^3.21.0",
+    "standard-version": "^5.0.1",
+    "typescript": "^3.3.3333"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "scripts": {
+    "tsc": "tsc -p tsconfig.json",
+    "release": "standard-version"
+  },
+  "files": [
+    "app.js",
+    "agent.js",
+    "config",
+    "app"
+  ],
+  "ci": {
+    "version": "8, 10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/forsigner/forsigner/egg-typegoose.git"
+  },
+  "bugs": {
+    "url": "https://github.com/forsigner/egg-typegoose/issues"
+  },
+  "homepage": "https://github.com/forsigner/egg-typegoose",
+  "author": "forsigner",
+  "license": "MIT"
+}
