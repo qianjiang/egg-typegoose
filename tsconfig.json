@@ -23,5 +23,5 @@
     "esModuleInterop": true,
     "importHelpers": true
   },
-  "exclude": ["app/public", "app/views", "node_modules*"]
+  "exclude": ["app/public", "app/views", "node_modules*","example*"]
 }
