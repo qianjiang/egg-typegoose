@@ -1,15 +1,5 @@
 # egg-typegoose
 
-[typegoose](https://github.com/szokodiakos/typegoose) plugin for Egg.js.
-
-[![NPM version][npm-image]][npm-url]
-[![npm download][download-image]][download-url]
-
-[npm-image]: https://img.shields.io/npm/v/@forsigner/egg-typegoose.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/@forsigner/egg-typegoose
-[download-image]: https://img.shields.io/npm/dm/@forsigner/egg-typegoose.svg?style=flat-square
-[download-url]: https://npmjs.org/package/@forsigner/egg-typegoose
-
 <!--
 Description here.
 -->
@@ -17,7 +7,7 @@ Description here.
 ## Install
 
 ```bash
-$ yarn add @forsigner/egg-typegoose
+$ npm i github:qianjiang/egg-typegoose --save
 ```
 
 ## Usage
@@ -29,7 +19,7 @@ $ yarn add @forsigner/egg-typegoose
 const plugin: EggPlugin = {
   typegoose: {
     enable: true,
-    package: '@forsigner/egg-typegoose',
+    package: 'egg-typegoose',
   },
 }
 ```
@@ -65,9 +55,23 @@ class User extends Typegoose {
 export default User
 ```
 
-## Example
+## Controller
 
-[example](https://github.com/forsigner/egg-typegoose/tree/master/example)
+```ts
+import { Controller } from 'egg'
+
+export default class UserController extends Controller {
+  public async index() {
+    const { ctx } = this
+    const result = await ctx.model.User.findOne()
+    if (result) {
+      ctx.body = result.avatar
+    }
+
+  }
+}
+
+```
 
 ## Questions & Suggestions
 
