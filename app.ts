@@ -1,14 +1,17 @@
 import { Application } from 'egg'
-import * as fs from 'fs-extra'
+// import * as fs from 'fs-extra'
+import { writeFileSync, existsSync, ensureDirSync } from "fs-extra";
 import { join, sep } from 'path'
 import { find } from 'fs-jetpack'
 import { watch } from 'chokidar'
-import * as prettier from 'prettier'
-import * as mongoose from 'mongoose'
+import { format } from 'prettier'
+// import * as mongoose from 'mongoose'
+import { connect } from "mongoose";
+
 
 async function connectDB(app: Application) {
   const { url, options } = app.config.typegoose
-  const connection = await mongoose.connect(url, options)
+  const connection = await connect(url, options)
   app.context.connection = connection
 }
 
@@ -25,7 +28,7 @@ function getModelName(file: string) {
 async function loadModel(app: Application) {
   const { baseDir } = app
   const modelDir = join(baseDir, 'app', 'model')
-  if (!fs.existsSync(modelDir)) return
+  if (!existsSync(modelDir)) return
 
   // TODO: handle other env
   const matching = app.config.env === 'local' ? '*.ts' : '*.js'
@@ -50,9 +53,9 @@ function watchModel(app: Application) {
   const modelDir = join(baseDir, 'app', 'model')
   const typingsDir = join(baseDir, 'typings')
 
-  if (!fs.existsSync(modelDir)) return
+  if (!existsSync(modelDir)) return
 
-  fs.ensureDirSync(typingsDir)
+  ensureDirSync(typingsDir)
   watch(modelDir).on('all', (eventType: string) => {
     if (['add', 'change'].includes(eventType)) {
       createTyingFile(app)
@@ -102,11 +105,11 @@ declare module 'egg' {
 }
 
 function writeTyping(path: string, text: string) {
-  fs.writeFileSync(path, formatCode(text), { encoding: 'utf8' })
+  writeFileSync(path, formatCode(text), { encoding: 'utf8' })
 }
 
 export function formatCode(text: string) {
-  return prettier.format(text, {
+  return format(text, {
     semi: false,
     tabWidth: 2,
     singleQuote: true,
@@ -136,10 +139,12 @@ export default async (app: Application) => {
   app.beforeStart(async () => {
     try {
       await connectDB(app)
-      watchModel(app)
+      if (app.config.env === 'local') {
+        watchModel(app)
+      }
       await loadModel(app)
     } catch (error) {
-      app.logger.info(JSON.stringify(error))
+      app.logger.error(JSON.stringify(error))
     }
   })
 }
